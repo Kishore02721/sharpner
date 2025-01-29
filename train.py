@@ -213,8 +213,8 @@ if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     generator = Generator()
     discriminator = Discriminator()
-    optimizer_G = optim.Adam(generator.parameters(), lr=0.0001)
-    optimizer_D = optim.Adam(discriminator.parameters(), lr=0.0001)
+    optimizer_G = optim.Adam(generator.parameters(), lr=0.001)
+    optimizer_D = optim.Adam(discriminator.parameters(), lr=0.00001)
 
     vgg = models.vgg19(pretrained=True).to(device)
     criterion_content = ContentLoss()

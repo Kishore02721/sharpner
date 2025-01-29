@@ -7,23 +7,13 @@ from PIL import Image
 import os
 from train import Generator
 
+# Load model
 def load_model(model_path, device):
     model = Generator()
-    
-    # Load the state dict
-    state_dict = torch.load(model_path, map_location=device)
-    
-    # Remove "module." prefix from the state dict keys if it exists
-    state_dict = {key.replace('module.', ''): value for key, value in state_dict.items()}
-    
-    # Load the state dict into the model
-    model.load_state_dict(state_dict)
-    
+    model.load_state_dict(torch.load(model_path, map_location=device))
     model.to(device)
     model.eval()
-    
     return model
-
 
 # Transform for grayscale images
 transform = transforms.Compose([
@@ -54,22 +44,15 @@ def test_image(generator, low_res_image_path, output_path, device):
 
 # Main
 if __name__ == "__main__":
-    # Set paths for Kaggle environment
-    low_res_image_path = 'demo/004.bmp'  # Adjust this path
-    output_dir = 'output'  # Directory where output will be saved
-    epoch = '19'  # Adjust this to the epoch number you want
-
-    # Ensure output directory exists
+    low_res_image_path = input("Enter the path to the low-res image: ")
+    output_dir = input("Enter the directory to save the output image: ")
+    epoch = input("Enter the epoch number: ")
+    
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, "output.png")
 
-    # Set device (GPU or CPU)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model_path = f"generator_epoch_{epoch}.pth"  # Adjust this path
-
-    # Load the model
+    model_path = f"generator_epoch_{epoch}.pth"  # Correctly use the epoch number
     generator = load_model(model_path, device)
     
-    # Test and save image
     test_image(generator, low_res_image_path, output_path, device)
-
