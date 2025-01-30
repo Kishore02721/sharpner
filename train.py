@@ -58,25 +58,12 @@ class Generator(nn.Module):
         self.rrdb_blocks = nn.Sequential(*[RRDB(64) for _ in range(num_rrdb)])
         self.final_conv = nn.Conv2d(64, in_channels, kernel_size=3, padding=1)
 
-    def forward(self, x, visualize=False):
+    def forward(self, x):
         initial_feature = self.initial_conv(x)
-        
-        # Store RRDB outputs for visualization
-        rrdb_outputs = []
-        
-        # Pass through RRDB blocks and store outputs if visualize is True
-        out = initial_feature
-        for rrdb in self.rrdb_blocks:
-            out = rrdb(out)
-            if visualize:
-                rrdb_outputs.append(out)  # Store each RRDB block output
-        
+        out = self.rrdb_blocks(initial_feature)
         out = self.final_conv(out)
-        
-        if visualize:
-            return out, rrdb_outputs  # Return generated image and RRDB block outputs
-        
         return out
+
 # Discriminator
 class Discriminator(nn.Module):
     def __init__(self, in_channels=1):
