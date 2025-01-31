@@ -254,4 +254,4 @@ if __name__ == "__main__":
     criterion_sobel = SobelLoss()
 
     train(generator, discriminator, dataloader, num_epochs, optimizer_G=optimizer_G, optimizer_D=optimizer_D,
-          criterion_content=criterion_content, criterion_perceptual=criterion_perceptual, criterion_sobel=criterion_sobel, device=device)            Model became overfit. Only gives correct output for trained data not for new data. Add regularization and dropout to this code to avoid dropout
+          criterion_content=criterion_content, criterion_perceptual=criterion_perceptual, criterion_sobel=criterion_sobel, device=device) 
