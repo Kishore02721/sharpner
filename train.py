@@ -211,7 +211,7 @@ if __name__ == "__main__":
         generator = nn.DataParallel(generator)
         discriminator = nn.DataParallel(discriminator)
     
-    optimizer_G = optim.Adam(generator.parameters(), lr=0.0001
+    optimizer_G = optim.Adam(generator.parameters(), lr=0.0001)
     optimizer_D = optim.Adam(discriminator.parameters(), lr=0.0001)
 
     vgg = models.vgg19(pretrained=True).to(device)
